@@ -1,8 +1,11 @@
 <x-app-layout>
     <div class="py-10 max-w-3xl mx-auto sm:px-6 lg:px-8 animate__animated animate__fadeInUp">
         {{-- Encabezado --}}
-        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-t-2xl shadow-lg p-4 flex justify-center items-center text-white">
-            <h2 class="text-2xl font-semibold tracking-wide">🆕 Nuevo Producto</h2>
+        <div class="bg-gradient-to-r from-indigo-500 to-indigo-700 rounded-t-2xl shadow-lg p-4 flex justify-center items-center text-white">
+            <h2 class="text-2xl font-semibold tracking-wide">
+                <i class="fa-solid fa-box"></i>
+                 Nuevo Producto
+            </h2>
         </div>
 
         {{-- Formulario --}}

@@ -2,7 +2,7 @@
     <div class="mt-16 py-6 max-w-md mx-auto sm:px-6 lg:px-8">
         
         {{-- ✅ Encabezado con degradado --}}
-        <div class="rounded-xl shadow-sm p-3 bg-gradient-to-r from-cyan-500 to-blue-500 flex justify-center items-center mb-6">
+        <div class="rounded-xl shadow-sm p-3 bg-gradient-to-r from-indigo-500 to-indigo-700 flex justify-center items-center mb-6">
             <h2 class="text-2xl font-semibold text-white flex items-center gap-2">
                 <i class="fa-solid fa-user-plus"></i> Crear nuevo usuario
             </h2>

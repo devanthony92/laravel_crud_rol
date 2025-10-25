@@ -1,6 +1,6 @@
 <x-app-layout>
 <!-- DASHBOARD PREVIEW -->
-<section id="preview" class="relative bg-white py-24 overflow-hidden">
+<section id="preview" class="relative bg-white py-15 overflow-hidden">
     <div class="max-w-6xl mx-auto px-6 text-center">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-12 animate__animated animate__fadeInDown">
             Vista Previa del Panel de Administración

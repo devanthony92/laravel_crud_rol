@@ -1,31 +1,29 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-2xl font-bold leading-tight text-gray-800 animate__animated animate__fadeInDown">
-            🛍️ {{ __('Gestión de Productos') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-8 max-w-7xl mx-auto sm:px-6 lg:px-8 animate__animated animate__fadeInUp">
-
+<x-app-layout> 
+    <div class="py-8 max-w-7xl mx-auto sm:px-6 lg:px-8  animate__animated animate__fadeInDown">
         {{-- Mensaje de éxito --}}
         @if (session('success'))
-            <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded shadow-sm">
+            <div class=" mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded shadow-sm">
+                <i class="fa-solid fa-circle-check mr-2"></i>    
                 <p class="font-medium">{{ session('success') }}</p>
             </div>
         @endif
 
         {{-- Botón de nuevo producto --}}
-        @can('create products')
-            <div class="flex justify-end mb-6">
+        <div class="flex justify-between mb-6">
+            <h2 class="text-2xl font-bold leading-tight text-gray-800">
+                🛍️{{ __('Gestión de Productos') }}
+            </h2>
+            @can('create products')
                 <a href="{{ route('products.create') }}" 
-                   class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-700 hover:to-blue-600 text-white font-semibold py-2 px-5 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-700 hover:to-blue-600 text-white font-semibold py-2 px-5 rounded-lg shadow-lg transition-transform transform hover:scale-105">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                     </svg>
                     Nuevo Producto
                 </a>
-            </div>
-        @endcan
+            @endcan
+        </div>
+        
 
         {{-- 📱 Modo móvil: tarjetas --}}
         <div class="md:hidden space-y-4">
@@ -75,7 +73,7 @@
                         <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Descripción</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Precio</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Stock</th>
-                        <th class="px-6 py-3 text-right text-sm font-semibold uppercase tracking-wider">Acciones</th>
+                        <th class="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-700">
@@ -108,14 +106,14 @@
                                     @endcan
                                     @if($product->deleted_at)
                                     @can('restore products')
-                                    <form action="{{ route('products.restore', $product->id) }}" method="POST" class="inline"
-                                    onsubmit="return confirm('¿Seguro que deseas restaurar este producto?')">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="text-green-600 hover:text-green-700" title="Restaurar">
-                                                <i class="fa-solid fa-recycle"></i>
-                                            </button>
-                                    </form>
+                                        <form action="{{ route('products.restore', $product->id) }}" method="POST" class="inline"
+                                        onsubmit="return confirm('¿Seguro que deseas restaurar este producto?')">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="text-green-600 hover:text-green-700" title="Restaurar">
+                                                    <i class="fa-solid fa-recycle"></i>
+                                                </button>
+                                        </form>
                                     @endcan
                                     @endif
                                 </td>

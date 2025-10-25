@@ -34,7 +34,7 @@
         </div>
     </section>
     <!-- FOOTER -->
-    <footer class="bg-gray-900 text-gray-400 py-8 text-center py-3">
+    <footer class="bg-gray-900 text-gray-400 py-3 text-center">
         <p>&copy; {{ date('Y') }} Desarrollado por <span class="text-white font-semibold">Anthony Martínez</span></p>
         <div class="mt-2 flex justify-center gap-6">
             <a href="https://github.com/devanthony92" target="_blank" class="hover:text-white transition">GitHub</a>

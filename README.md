@@ -17,7 +17,7 @@ Un panel de administración moderno desarrollado con **Laravel** y **Tailwind CS
 
 ## 🛠️ Tecnologías utilizadas
 
-- [Laravel 11+](https://laravel.com/)
+- [Laravel 10](https://laravel.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission/)
 - [Font Awesome](https://fontawesome.com/)
@@ -78,7 +78,7 @@ resources/
  │   └─ roles/
 ```
 
-## 📱 Capturas (opcional)
+## 📱 Capturas
 
 ![Welcome](docs/img/Welcome.png)
 

@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\RoleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +23,15 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+Route::middleware(['auth', 'can:manage roles'])->group(function () {
+    Route::resource('roles', RoleController::class);
+    Route::get('/roles/{role}/permissions', [RoleController::class, 'edit'])->name('roles.permissions.edit');
+    Route::put('/roles/{role}/permissions', [RoleController::class, 'update'])->name('roles.permissions.update');
+
+});
 
 Route::middleware(['web', 'auth'])->group(function () {
 

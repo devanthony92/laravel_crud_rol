@@ -21,12 +21,15 @@ class RolePermissionSeeder extends Seeder
             'edit products',
             'delete products',
             'restore products',
-            'force delete products',
+            'force-delete products',
             // Usuarios
             'view users',
             'create users',
             'edit users',
             'delete users',
+
+            //Roles
+            'manage roles',
         ];
 
         // Crear permisos en la base de datos
@@ -35,9 +38,20 @@ class RolePermissionSeeder extends Seeder
         }
 
         // Crear difenrentes roles
-        $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        $sellerRole = Role::firstOrCreate(['name' => 'seller', 'guard_name' => 'web']);
-        $viewerRole = Role::firstOrCreate(['name' => 'viewer', 'guard_name' => 'web']);
+        $adminRole = Role::firstOrCreate(
+            ['name' => 'admin', 'guard_name' => 'web'],
+            ['description' => 'Tiene control total sobre la aplicación.']
+        );
+
+        $sellerRole = Role::firstOrCreate(
+            ['name' => 'seller', 'guard_name' => 'web'],
+            ['description' => 'Gestiona productos y ventas.']
+        );
+
+        $viewerRole = Role::firstOrCreate(
+            ['name' => 'viewer', 'guard_name' => 'web'],
+            ['description' => 'Solo puede visualizar información.']
+        );
 
         // Asignar permisos a los roles
         $adminRole->givePermissionTo(Permission::all());

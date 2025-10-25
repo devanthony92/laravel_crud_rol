@@ -1,46 +1,38 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h1 class="text-2xl font-semibold text-gray-800 flex items-center gap-2">
-            <i class="fa-solid fa-users text-indigo-600"></i>
-            Gestión de Usuarios
-        </h1>
-    </x-slot>
-
-    <div class="py-6 max-w-6xl mx-auto sm:px-6 lg:px-8">
-
+    <div class="py-8 max-w-7xl mx-auto sm:px-6 lg:px-8  animate__animated animate__fadeInDown">
         {{-- ✅ Mensaje de éxito --}}
         @if (session('success'))
-            <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg shadow-sm">
+            <div class=" mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded shadow-sm">
                 <i class="fa-solid fa-circle-check mr-2"></i>
-                {{ session('success') }}
+                <p class="font-medium">{{ session('success') }}</p>
             </div>
         @endif
 
         {{-- ✅ Botón crear usuario --}}
-        @can('create users')
-            @if (Route::has('users.create'))
-                <div class="mb-5 flex justify-end">
+        <div class="flex justify-between mb-6">
+            <h2 class="text-2xl font-bold leading-tight text-gray-800">
+                <i class="fa-solid fa-users text-indigo-600"></i>
+                {{ __('Gestión de Usuarios') }}
+            </h2>
+            @can('create users')            
                     <a href="{{ route('users.create') }}"
-                        class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-5 rounded-xl shadow-md transition-all duration-200">
+                    class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-700 hover:to-blue-600 text-white font-semibold py-2 px-5 rounded-lg shadow-lg transition-transform transform hover:scale-105">
                         <i class="fa-solid fa-user-plus"></i>
                         Nuevo Usuario
                     </a>
                 </div>
-            @else
-                <p class="text-red-500 text-sm">Ruta 'users.create' no está disponible.</p>
-            @endif
-        @endcan
+            @endcan
 
         {{-- ✅ Tabla responsive --}}
-        <div class="overflow-x-auto bg-white shadow-lg rounded-xl border border-gray-100">
-            <table class="w-full text-sm text-left text-gray-700">
-                <thead class="bg-gray-100 text-gray-800 uppercase text-xs font-semibold tracking-wider">
+        <div class="hidden md:block overflow-x-auto bg-white shadow-lg rounded-xl border border-gray-100">
+            <table class="min-w-full border-collapse">
+                <thead class="bg-gradient-to-r from-indigo-100 to-blue-100 text-gray-800">
                     <tr>
-                        <th class="px-6 py-3">ID</th>
-                        <th class="px-6 py-3">Nombre</th>
-                        <th class="px-6 py-3">Email</th>
-                        <th class="px-6 py-3">Roles</th>
-                        <th class="px-6 py-3 text-center">Acciones</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Nombre</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Email</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Roles</th>
+                        <th class="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
