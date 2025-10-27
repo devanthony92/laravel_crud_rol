@@ -81,6 +81,7 @@
                         <label class="flex items-center cursor-pointer hover:bg-gray-50 rounded-lg p-1">
                             <input type="radio" 
                                    name="role" 
+                                   required
                                    value="{{ $role->name }}"
                                    class="h-4 w-4 text-cyan-600 border-gray-300 focus:ring-cyan-500">
                             <span class="ml-2 text-sm text-gray-700 capitalize">{{ $role->name }}</span>

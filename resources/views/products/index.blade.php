@@ -90,11 +90,14 @@
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
                                     @can('edit products')
+                                        @if(!$product->deleted_at)
                                         <a href="{{ route('products.edit', $product) }}" class="text-yellow-500 hover:text-yellow-600 transition">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
+                                        @endif
                                     @endcan
                                     @can('delete products')
+                                        @if(!$product->deleted_at)
                                         <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline"
                                             onsubmit="return confirm('¿Seguro que deseas eliminar este producto?')">
                                             @csrf
@@ -103,6 +106,16 @@
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
                                         </form>
+                                        @else
+                                        <form action="{{ route('products.force-delete', $product) }}" method="POST" class="inline"
+                                            onsubmit="return confirm(' El producto sera eliminado permanentemente y no podra ser restaurado. ¿Desea Continuar?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-800 transition">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form>
+                                        @endif
                                     @endcan
                                     @if($product->deleted_at)
                                     @can('restore products')

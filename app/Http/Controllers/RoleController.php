@@ -2,21 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
+//use App\Models\Role;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
+    private function groupPermissions()
+{
+    // Agrupar permisos por la primera parte del nombre (antes del punto)
+    $permissions = Permission::all()
+        ->groupBy(function ($perm) {
+            return explode(' ', $perm->name)[1] ?? 'otros';
+        });
+
+    return $permissions;
+}
+
     public function index()
     {
-        $roles = Role::orderBy('id', 'desc')->paginate(10);
+        $roles = Role::withCount('permissions')->paginate(10);
+
         return view('roles.index', compact('roles'));
     }
 
     public function create()
     {
-        return view('roles.create');
+        $permissions = $this->groupPermissions();
+
+        return view('roles.create', compact('permissions'));
     }
 
     public function store(Request $request)
@@ -24,10 +40,20 @@ class RoleController extends Controller
         $request->validate([
             'name' => 'required|string|max:50|unique:roles,name',
             'description' => 'nullable|string|max:255',
+            'permissions' => 'array',
         ]);
-        $request['guard_name'] = "web";
+        
+        DB::transaction(function () use ($request) {
+            $role = Role::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'guard_name' => 'web',
+            ]);
 
-        Role::create($request->all());
+            if ($request->filled('permissions')) {
+                $role->givePermissionTo($request->permissions);
+            }
+        });
 
         return redirect()->route('roles.index')
             ->with('success', 'Rol creado exitosamente.');
@@ -35,15 +61,16 @@ class RoleController extends Controller
 
     public function show(Role $role)
     {
-        return view('roles.show', compact('role'));
+        $role->load('permissions');
+        $permissions = $this->groupPermissions();
+
+        return view('roles.show', compact('role', 'permissions'));
     }
 
     public function edit(Role $role)
     {
-        $permissions = Permission::all()
-        ->groupBy(function ($perm) {
-            return explode(' ', $perm->name)[1] ?? 'otros';
-        });
+        $permissions = $this->groupPermissions();
+        
         return view('roles.permissions', compact('role', 'permissions'));
     }
 

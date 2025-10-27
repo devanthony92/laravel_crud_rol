@@ -27,21 +27,19 @@
         </div>
 
         <!-- Ondas decorativas -->
-        <div class="absolute bottom-0 left-0 w-[200%] overflow-hidden leading-none">
+        <div class="absolute top-0 left-0 w-[200%] overflow-hidden leading-none">
             <svg class="relative block h-32 w-[200%] animate-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M0,0V46.29c47.74,22,103.15,29,158,17.39,70.77-15.41,136.71-57.26,207.48-71.55C438.67-20.5,512,9.92,583.08,31.09,655.43,52.77,726.54,65.56,798,51.12c70.63-14.21,140.14-54.13,210.77-66.68,69.9-12.35,141.19,2.36,191.23,20.49V0Z" fill="#ffffff" fill-opacity="0.3"/>
             </svg>
         </div>
-    </section>
-    <!-- FOOTER -->
-    <footer class="bg-gray-900 text-gray-400 py-3 text-center">
+        <div class="bg-gray-900 text-gray-400 py-3 text-center absolute bottom-0 w-full">
         <p>&copy; {{ date('Y') }} Desarrollado por <span class="text-white font-semibold">Anthony Martínez</span></p>
         <div class="mt-2 flex justify-center gap-6">
             <a href="https://github.com/devanthony92" target="_blank" class="hover:text-white transition">GitHub</a>
             <a href="https://linkedin.com/in/anthony-martinez-amell" target="_blank" class="hover:text-white transition">LinkedIn</a>
             <a href="mailto:antmarame@gmail.com" class="hover:text-white transition">Contacto</a>
         </div>
-    </footer>
-
+    </div>
+    </section>
 </body>
 </html>

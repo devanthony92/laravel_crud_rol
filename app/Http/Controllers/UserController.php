@@ -34,7 +34,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all(); 
+        $roles = Role::with('permissions')
+             ->whereNull('deleted_at')
+             ->get();
+        
         return view('users.create', compact('roles'));
     }
 
@@ -46,16 +49,20 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             // Crear usuario con fill y hash de contraseña
-            $user = new User();
-            $user->fill([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|string|min:6',
+        'role' => 'required|string|exists:roles,name', // 👈 el rol debe existir
+    ]);
         // Guardar usuario
-        $user->save();
+        $user = User::create([
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'password' => bcrypt($validated['password']),
+    ]);
         // Asignar rol
-        $user->assignRole($request->role);
+        $user->assignRole($validated['role']);
 
         // Confirmar transacción
         DB::commit();
@@ -86,7 +93,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::all();
+        $roles = Role::with('permissions')
+             ->whereNull('deleted_at')
+             ->get();
+        
         return view('users.edit', compact('user', 'roles'));
     }
 
@@ -94,32 +104,39 @@ class UserController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateUserRequest $request, User $user)
-    {
-        // Asignar solo los campos proporcionados
-        $user->fill($request->only(['name', 'email']));
+{
+    $request->validate([
+        'role' => 'required|exists:roles,name',
+    ]);
 
-        // Detectar cambios importantes
-        if ($user->isDirty('email')) {
-            // Aquí puedes disparar eventos o notificaciones
-            // Ej: event(new UserEmailChanged($user));
-        }
+    // 🔹 Rellenar los atributos permitidos
+    $user->fill($request->only(['name', 'email']));
 
-        // Actualizar la contraseña solo si viene en el request
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
+    // 🔹 Verificar si hay cambios en los atributos
+    $hasChanges = $user->isDirty();
 
-        // Guardar cambios en la base de datos
-        $user->save();
-
-        // Sincronizar roles solo si vienen en el request
-        if ($request->filled('role')) {
-            $user->syncRoles($request->role);
-        }
-
-        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
- 
+    // 🔹 Verificar si se envió password
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+        $hasChanges = true;
     }
+
+    // 🔹 Verificar si el rol cambió
+    if (!$user->hasRole($request->role)) {
+        $user->syncRoles([$request->role]);
+        $hasChanges = true;
+    }
+
+    // 🔹 Guardar solo si hubo cambios
+    if ($hasChanges) {
+        $user->save();
+    }
+
+    return redirect()->route('users.index')
+        ->with('success', $hasChanges
+            ? 'Usuario actualizado correctamente.'
+            : 'No se detectaron cambios.');
+}
 
     /**
      * Remove the specified resource from storage.
